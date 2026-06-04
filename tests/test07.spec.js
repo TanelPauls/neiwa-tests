@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-test("Test Case ID 3", async ({ request }) => {
+test("Test Case ID 5", async ({ request }) => {
   // Login
   const firebaseRes = await request.post(
     `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`,
@@ -30,29 +30,15 @@ test("Test Case ID 3", async ({ request }) => {
 
   const accessCookie = cookies.find((c) => c.startsWith("NEIWA_ACCESS="));
   expect(accessCookie).toBeTruthy();
-  const accessToken = accessCookie.split(";")[0]; // "NEIWA_ACCESS=<value>"
+  const accessToken = accessCookie.split(";")[0];
 
-  // POST /elair/sessions
-  const elairRes = await request.post(process.env.API_LINK, {
-    headers: {
-      "Content-Type": "application/json",
-      "Cookie": accessToken,
-    },
-    data: {
-      started_at: "2026-05-27T12:00:00Z",
-      actual_seconds: 240,
-      planned_seconds: 300,
-      completed: true,
-      inhale: 4,
-      hold: 4,
-      exhale: 6,
-      pause: 2,
-    },
+  const elairRes = await request.get(process.env.API_LINK, {
+    headers: { "Cookie": accessToken },
   });
 
-  expect(elairRes.status()).toBe(201);
+  expect(elairRes.status()).toBe(200);
   const body = await elairRes.json();
-  expect(body).toHaveProperty("id");
-  expect(typeof body.id).toBe("string");
-  //console.log(body);
+  expect(Array.isArray(body)).toBeTruthy();
+  expect(body.length).toBeGreaterThan(0);
+  expect(body[0]).toHaveProperty("id");
 });

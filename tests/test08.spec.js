@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-test("Test Case ID 3", async ({ request }) => {
+test("Test Case ID 6", async ({ request }) => {
   // Login
   const firebaseRes = await request.post(
     `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.NEXT_PUBLIC_FIREBASE_API_KEY}`,
@@ -44,7 +44,7 @@ test("Test Case ID 3", async ({ request }) => {
       planned_seconds: 300,
       completed: true,
       inhale: 4,
-      hold: 4,
+      hold: 2147483647,
       exhale: 6,
       pause: 2,
     },
