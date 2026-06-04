@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-test('Auth test with correct password', async ({ page }) => {
+test('Test Case ID 1', async ({ page }) => {
 
   await page.goto(process.env.SIGNIN_PAGE);
 
